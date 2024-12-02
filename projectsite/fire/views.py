@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic.list import ListView
+from django.views.generic import ListView, CreateView
 from fire.models import Locations, Incident, FireStation
 
 from django.db import connection
@@ -8,6 +8,8 @@ from django.db.models.functions import ExtractMonth
 
 from django.db.models import Count
 from datetime import datetime
+from .forms import firestationform
+from django.urls import reverse_lazy
 
 class HomePageView(ListView):
     model = Locations
@@ -183,3 +185,27 @@ def map_station(request):
      }
 
      return render(request, 'map_station.html', context)
+    
+class FireStationListView(ListView):
+    model = FireStation
+    context_object_name = 'stations'
+    template_name = 'firestationlist.html'
+    paginate_by = 5
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super().get_queryset(*args, **kwargs)
+        if self.request.GET.get("q") is not None:
+            query = self.request.GET.get('q')
+            qs = qs.filter(
+                Q(name__icontains=query) |
+                Q(address__icontains=query) |
+                Q(city__icontains=query) |
+                Q(country__icontains=query)
+            )
+        return qs.order_by('id')
+
+class FireStationCreateView(CreateView):
+    model = FireStation
+    form_class = firestationform
+    template_name = 'firestationadd.html'
+    success_url = reverse_lazy('fire-stations')
