@@ -16,10 +16,12 @@
             
             <div class="col-md-6">
               <div class="card-body">
-                <form action="" method="post" novalidate>
+                <form action="" id="weatherForm" method="post" novalidate>
                   {% csrf_token %}
                   {% include 'includes/form.html' %}
-                  
+                  <p id="errorTemp" class="text-danger" style="display: none;">
+                    The fields Temperature, Humidity, & Wind Speed only accept positive value.
+                  </p>
                   <div class="form-group">
                     <div class="col-md-12 col-sm-3">
                       <button type="submit" class="btn btn-primary btn-rounded">Submit</button>
@@ -33,4 +35,19 @@
       </div>
     </div>
   </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const inputs = document.querySelectorAll('input[type="number"]');
+        const errorTemp = document.getElementById('errorTemp');
+
+        inputs.forEach(function (input) {
+            input.addEventListener('input', function () {
+                if (parseFloat(this.value) < 0) {
+                    errorTemp.style.display = 'block';
+                    this.value = ''; // Clear invalid input
+                }
+            });
+        });
+    });
+</script>
 {% endblock %}

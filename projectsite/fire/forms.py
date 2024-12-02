@@ -41,3 +41,18 @@ class weatherform(ModelForm):
     class Meta: 
         model = WeatherConditions
         fields = "__all__"
+        widgets = {
+            'temperature': forms.NumberInput(attrs={'min': '0', 'step': '0.01', 'class': 'form-control'}),
+            'humidity': forms.NumberInput(attrs={'min': '0', 'step': '0.01', 'class': 'form-control'}),
+            'wind_speed': forms.NumberInput(attrs={'min': '0', 'step': '0.01', 'class': 'form-control'})
+        }
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        fields_to_validate = ['temperature', 'humidity', 'wind_speed']
+
+        for field in fields_to_validate:
+            value = cleaned_data.get(field)
+            if value is not None and value < 0:
+                self.add_error(field, f"{field.replace('_', ' ').capitalize()} must be non-negative.")
+        return cleaned_data
