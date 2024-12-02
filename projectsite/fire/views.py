@@ -192,6 +192,19 @@ class FireStationListView(ListView):
     template_name = 'firestationlist.html'
     paginate_by = 5
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        fireStations = FireStation.objects.values('name', 'latitude', 'longitude')
+
+        # Convert latitudes and longitudes to float
+        for fs in fireStations:
+            fs['latitude'] = float(fs['latitude'])
+            fs['longitude'] = float(fs['longitude'])
+
+        # Add fireStations to the context
+        context['fireStations'] = list(fireStations)
+        return context
+
     def get_queryset(self, *args, **kwargs):
         qs = super().get_queryset(*args, **kwargs)
         if self.request.GET.get("q") is not None:
