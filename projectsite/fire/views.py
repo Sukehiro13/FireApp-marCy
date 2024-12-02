@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-from fire.models import Locations, Incident, FireStation
+from fire.models import Locations, Incident, FireStation, WeatherConditions
 
 from django.db import connection
 from django.http import JsonResponse
@@ -8,7 +8,7 @@ from django.db.models.functions import ExtractMonth
 
 from django.db.models import Count
 from datetime import datetime
-from .forms import firestationform, fireincidentform, locationform
+from .forms import firestationform, fireincidentform, locationform, weatherform
 from django.urls import reverse_lazy
 
 class HomePageView(ListView):
@@ -278,3 +278,33 @@ class LocationDeleteView(DeleteView):
     model = Locations
     template_name = 'location_delete.html'
     success_url = reverse_lazy('locations')
+
+class WeatherConditionListView(ListView):
+    model = WeatherConditions
+    template_name = 'weather_condition_list.html'
+    context_object_name = 'weather'
+    paginate_by = 5
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        query = self.request.GET.get('q')
+        if query:
+            queryset = queryset.filter(Q(incident__description__icontains=query) | Q(temperature__icontains=query) |Q(humidity__icontains=query) |Q(wind_speed__icontains=query) |Q(weather_description__icontains=query))
+        return queryset.order_by('id')  
+
+class WeatherConditionCreateView(CreateView):
+    model = WeatherConditions
+    form_class = weatherform
+    template_name = 'weather_condition_add.html'
+    success_url = reverse_lazy('weather')
+
+class WeatherConditionUpdateView(UpdateView):
+    model = WeatherConditions
+    form_class = weatherform
+    template_name = 'weather_condition_edit.html'
+    success_url = reverse_lazy('weather')
+
+class WeatherConditionDeleteView(DeleteView):
+    model = WeatherConditions
+    template_name = 'weather_condition_delete.html'
+    success_url = reverse_lazy('weather')

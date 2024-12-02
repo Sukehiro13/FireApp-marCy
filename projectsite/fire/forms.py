@@ -2,7 +2,7 @@ from django.forms import ModelForm
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.timezone import now, make_aware
-from .models import FireStation, Incident, Locations
+from .models import FireStation, Incident, Locations, WeatherConditions
 
 class firestationform(ModelForm):
     class Meta: 
@@ -35,4 +35,9 @@ class fireincidentform(ModelForm):
 class locationform(ModelForm):
     class Meta: 
         model = Locations
+        fields = "__all__"
+
+class weatherform(ModelForm):
+    class Meta: 
+        model = WeatherConditions
         fields = "__all__"

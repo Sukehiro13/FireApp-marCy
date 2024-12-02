@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from fire.views import HomePageView, ChartView, PieCountbySeverity, LineCountbyMonth, MultilineIncidentTop3Country, multipleBarbySeverity, FireStationListView, FireStationCreateView, FireIncidentListView, FireIncidentCreateView, LocationListView, LocationCreateView, LocationUpdateView, LocationDeleteView, FireIncidentUpdateView, FireIncidentDeleteView
+from fire.views import HomePageView, ChartView, PieCountbySeverity, LineCountbyMonth, MultilineIncidentTop3Country, multipleBarbySeverity, FireStationListView, FireStationCreateView, FireIncidentListView, FireIncidentCreateView, LocationListView, LocationCreateView, LocationUpdateView, LocationDeleteView, FireIncidentUpdateView, FireIncidentDeleteView, WeatherConditionListView, WeatherConditionCreateView, WeatherConditionUpdateView, WeatherConditionDeleteView
 from fire import views
 
 
@@ -23,4 +23,8 @@ urlpatterns = [
     path('location/add/', LocationCreateView.as_view(), name='locations-add'),
     path('location/<pk>/', LocationUpdateView.as_view(), name='locations-edit'),
     path('location/<pk>/delete/', LocationDeleteView.as_view(), name='locations-delete'),
+    path('weathercondition/', WeatherConditionListView.as_view(), name='weather'),
+    path('weathercondition/add/', WeatherConditionCreateView.as_view(), name='weather-add'),
+    path('weathercondition/<pk>/', WeatherConditionUpdateView.as_view(), name='weather-edit'),
+    path('weathercondition/<pk>/delete/', WeatherConditionDeleteView.as_view(), name='weather-delete'),
 ]
