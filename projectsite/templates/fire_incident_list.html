@@ -54,9 +54,9 @@
                       <td>{{ object.severity_level }}</td>
                       <td>{{ object.description }}</td>
                       <td>
-                        <a href="#" class="btn btn-primary btn-rounded">Edit</a>
+                        <a href="{% url 'fire-incidents-edit' object.pk %}" class="btn btn-primary btn-rounded">Edit</a>
                         &nbsp;&nbsp;&nbsp;
-                        <a href="#" class="btn btn-danger btn-rounded">Delete</a>
+                        <a href="{% url 'fire-incidents-delete' object.pk %}" class="btn btn-danger btn-rounded">Delete</a>
                     </td>
                     </tr>
                     {% empty %}

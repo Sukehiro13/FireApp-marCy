@@ -238,6 +238,17 @@ class FireIncidentCreateView(CreateView):
     template_name = 'fire_incident_add.html'
     success_url = reverse_lazy('fire-incidents')
 
+class FireIncidentUpdateView(UpdateView):
+    model = Incident
+    form_class = fireincidentform
+    template_name = 'fire_incident_edit.html'
+    success_url = reverse_lazy('fire-incidents')
+
+class FireIncidentDeleteView(DeleteView):
+    model = Incident
+    template_name = 'fire_incident_delete.html'
+    success_url = reverse_lazy('fire-incidents')
+
 class LocationListView(ListView):
     model = Locations
     template_name = 'location_list.html'
