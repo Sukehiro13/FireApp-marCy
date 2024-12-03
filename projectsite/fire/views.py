@@ -8,7 +8,7 @@ from django.db.models.functions import ExtractMonth
 
 from django.db.models import Count
 from datetime import datetime
-from .forms import firestationform, fireincidentform, locationform, weatherform, firefighterform
+from .forms import firestationform, fireincidentform, locationform, weatherform, firefighterform, firetruckform
 from django.urls import reverse_lazy
 
 class HomePageView(ListView):
@@ -366,7 +366,18 @@ class FireTruckListView(ListView):
 
 
 class FireTruckCreateView(CreateView):
-    model = Firefighters
-    form_class = firefighterform
-    template_name = 'firefighteradd.html'
-    success_url = reverse_lazy('fire-fighter')
+    model = FireTruck
+    form_class = firetruckform
+    template_name = 'firetruckadd.html'
+    success_url = reverse_lazy('fire-truck')
+
+class FireTruckUpdateView(UpdateView):
+    model = FireTruck
+    form_class = firetruckform
+    template_name = 'firetruckedit.html'
+    success_url = reverse_lazy('fire-truck')
+
+class FireTruckDeleteView(DeleteView):
+    model = FireTruck
+    template_name = 'firetruckdelete.html'
+    success_url = reverse_lazy('fire-truck')

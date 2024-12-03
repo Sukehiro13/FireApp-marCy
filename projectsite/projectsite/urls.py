@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from fire.views import HomePageView, FireTruckListView, FireStationDeleteView, FireFightersCreateView, FireFightersDeleteView, FireFightersUpdateView, FireFightersListView, ChartView, FireStationUpdateView, PieCountbySeverity, LineCountbyMonth, MultilineIncidentTop3Country, multipleBarbySeverity, FireStationListView, FireStationCreateView, FireIncidentListView, FireIncidentCreateView, LocationListView, LocationCreateView, LocationUpdateView, LocationDeleteView, FireIncidentUpdateView, FireIncidentDeleteView, WeatherConditionListView, WeatherConditionCreateView, WeatherConditionUpdateView, WeatherConditionDeleteView
+from fire.views import HomePageView, FireTruckListView, FireTruckDeleteView, FireTruckUpdateView, FireTruckCreateView, FireStationDeleteView, FireFightersCreateView, FireFightersDeleteView, FireFightersUpdateView, FireFightersListView, ChartView, FireStationUpdateView, PieCountbySeverity, LineCountbyMonth, MultilineIncidentTop3Country, multipleBarbySeverity, FireStationListView, FireStationCreateView, FireIncidentListView, FireIncidentCreateView, LocationListView, LocationCreateView, LocationUpdateView, LocationDeleteView, FireIncidentUpdateView, FireIncidentDeleteView, WeatherConditionListView, WeatherConditionCreateView, WeatherConditionUpdateView, WeatherConditionDeleteView
 from fire import views
 
 
@@ -34,4 +34,7 @@ urlpatterns = [
     path('firefighter/<pk>/', FireFightersUpdateView.as_view(), name='fire-fighter-edit'),
     path('firefighter/<pk>/delete/', FireFightersDeleteView.as_view(), name='fire-fighter-delete'),
     path('firetrucks/', FireTruckListView.as_view(), name='fire-truck'),
+    path('firetruck/add/', FireTruckCreateView.as_view(), name='fire-truck-add'),
+    path('firetruck/<pk>/', FireTruckUpdateView.as_view(), name='fire-truck-edit'),
+    path('firetruck/<pk>/delete/', FireTruckDeleteView.as_view(), name='fire-truck-delete'),
 ]

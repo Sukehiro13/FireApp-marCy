@@ -31,7 +31,7 @@
                 
                 <div class="col-md-6">
                     <div class="pull-right">
-                    <a href="#" class="btn btn-success btn-rounded">Add new Fire Truck</a>
+                    <a href="{% url 'fire-truck-add' %}" class="btn btn-success btn-rounded">Add new Fire Truck</a>
                     </div>
                 </div>
                 </div>
@@ -39,9 +39,9 @@
               <table class="table table-striped mt-3">
                 <thead>
                   <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Rank</th>
-                    <th scope="col">Experience</th>
+                    <th scope="col">Truck Number</th>
+                    <th scope="col">Model</th>
+                    <th scope="col">Capacity</th>
                     <th scope="col">Station</th>
                     <th scope="col">Action</th>
                   </tr>
@@ -49,14 +49,14 @@
                 <tbody>
                   {% for object in object_list %}
                     <tr>
-                      <td>{{ object.name }}</td>
-                      <td>{{ object.rank }}</td>
-                      <td>{{ object.experience_level }}</td>
+                      <td>{{ object.truck_number }}</td>
+                      <td>{{ object.model }}</td>
+                      <td>{{ object.capacity }}</td>
                       <td>{{ object.station }}</td>
                       <td>
-                        <a href="#" class="btn btn-primary btn-rounded">Edit</a>
+                        <a href="{% url 'fire-truck-edit' object.pk %}" class="btn btn-primary btn-rounded">Edit</a>
                         &nbsp;&nbsp;&nbsp;
-                        <a href="#" class="btn btn-danger btn-rounded">Delete</a>
+                        <a href="{% url 'fire-truck-delete' object.pk %}" class="btn btn-danger btn-rounded">Delete</a>
                     </td>
                     </tr>
                     {% empty %}
