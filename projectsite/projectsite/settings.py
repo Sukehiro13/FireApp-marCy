@@ -73,6 +73,7 @@ WSGI_APPLICATION = "projectsite.wsgi.application"
 
 
 # Database
+# Cy
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
@@ -84,6 +85,7 @@ DATABASES = {
 
 
 # Password validation
+# rus
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
