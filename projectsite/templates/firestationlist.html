@@ -58,9 +58,9 @@
                       <td>{{ object.city }}</td>
                       <td>{{ object.country }}</td>
                       <td>
-                        <a href="#" class="btn btn-primary btn-rounded">Edit</a>
+                        <a href="{% url 'fire-stations-edit' object.pk %}" class="btn btn-primary btn-rounded">Edit</a>
                         &nbsp;&nbsp;&nbsp;
-                        <a href="#" class="btn btn-danger btn-rounded">Delete</a>
+                        <a href="{% url 'fire-stations-delete' object.pk %}" class="btn btn-danger btn-rounded">Delete</a>
                     </td>
                     </tr>
                     {% empty %}

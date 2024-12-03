@@ -2,7 +2,7 @@ from django.forms import ModelForm
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.timezone import now, make_aware
-from .models import FireStation, Incident, Locations, WeatherConditions
+from .models import FireStation, Incident, Locations, WeatherConditions, Firefighters, FireTruck
 
 class firestationform(ModelForm):
     class Meta: 
@@ -56,3 +56,13 @@ class weatherform(ModelForm):
             if value is not None and value < 0:
                 self.add_error(field, f"{field.replace('_', ' ').capitalize()} must be non-negative.")
         return cleaned_data
+
+class firefighterform(ModelForm):
+    class Meta: 
+        model = Firefighters
+        fields = "__all__"
+
+class firetruckform(ModelForm):
+    class Meta: 
+        model = FireTruck
+        fields = "__all__"

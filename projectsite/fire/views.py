@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-from fire.models import Locations, Incident, FireStation, WeatherConditions
+from fire.models import Locations, Incident, FireStation, WeatherConditions, Firefighters, FireTruck
 
 from django.db import connection
 from django.http import JsonResponse
@@ -8,7 +8,7 @@ from django.db.models.functions import ExtractMonth
 
 from django.db.models import Count
 from datetime import datetime
-from .forms import firestationform, fireincidentform, locationform, weatherform
+from .forms import firestationform, fireincidentform, locationform, weatherform, firefighterform
 from django.urls import reverse_lazy
 
 class HomePageView(ListView):
@@ -232,6 +232,18 @@ class FireIncidentListView(ListView):
             queryset = queryset.filter(Q(location__icontains=query) | Q(description__icontains=query) | Q(severity_level__icontains=query))
         return queryset.order_by('id')  
 
+class FireStationUpdateView(UpdateView):
+    model = FireStation
+    form_class = firestationform
+    template_name = 'firestationedit.html'
+    success_url = reverse_lazy('fire-stations')
+
+class FireStationDeleteView(DeleteView):
+    model = FireStation
+    template_name = 'firestationdelete.html'
+    success_url = reverse_lazy('fire-stations')
+
+
 class FireIncidentCreateView(CreateView):
     model = Incident
     form_class = fireincidentform
@@ -308,3 +320,53 @@ class WeatherConditionDeleteView(DeleteView):
     model = WeatherConditions
     template_name = 'weather_condition_delete.html'
     success_url = reverse_lazy('weather')
+
+class FireFightersListView(ListView):
+    model = Firefighters
+    template_name = 'firefighterlist.html'
+    context_object_name = 'firefighter'
+    paginate_by = 5
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        query = self.request.GET.get('q')
+        if query:
+            queryset = queryset.filter(Q(name__icontains=query) | Q(rank__icontains=query) |Q(experience_level__icontains=query) |Q(station__icontains=query))
+        return queryset.order_by('id')  
+
+class FireFightersCreateView(CreateView):
+    model = Firefighters
+    form_class = firefighterform
+    template_name = 'firefighteradd.html'
+    success_url = reverse_lazy('fire-fighter')
+
+class FireFightersUpdateView(UpdateView):
+    model = Firefighters
+    form_class = firefighterform
+    template_name = 'firefighteredit.html'
+    success_url = reverse_lazy('fire-fighter')
+
+class FireFightersDeleteView(DeleteView):
+    model = Firefighters
+    template_name = 'firefighterdelete.html'
+    success_url = reverse_lazy('fire-fighter')
+
+class FireTruckListView(ListView):
+    model = FireTruck
+    template_name = 'firetrucklist.html'
+    context_object_name = 'firetruck'
+    paginate_by = 5
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        query = self.request.GET.get('q')
+        if query:
+            queryset = queryset.filter(Q(truck_number__icontains=query) | Q(model__icontains=query) |Q(capacity__icontains=query) |Q(station__icontains=query))
+        return queryset.order_by('id')
+
+
+class FireTruckCreateView(CreateView):
+    model = Firefighters
+    form_class = firefighterform
+    template_name = 'firefighteradd.html'
+    success_url = reverse_lazy('fire-fighter')
