@@ -1,15 +1,14 @@
 from django.shortcuts import render
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from fire.models import Locations, Incident, FireStation, WeatherConditions, Firefighters, FireTruck
-
 from django.db import connection
 from django.http import JsonResponse
 from django.db.models.functions import ExtractMonth
-
 from django.db.models import Count
 from datetime import datetime
 from .forms import firestationform, fireincidentform, locationform, weatherform, firefighterform, firetruckform
 from django.urls import reverse_lazy
+from django.db.models import Q
 
 class HomePageView(ListView):
     model = Locations
@@ -229,7 +228,7 @@ class FireIncidentListView(ListView):
         queryset = super().get_queryset()
         query = self.request.GET.get('q')
         if query:
-            queryset = queryset.filter(Q(location__icontains=query) | Q(description__icontains=query) | Q(severity_level__icontains=query))
+            queryset = queryset.filter(Q(location__name__icontains=query) | Q(description__icontains=query) | Q(severity_level__icontains=query))
         return queryset.order_by('id')  
 
 class FireStationUpdateView(UpdateView):
@@ -331,7 +330,7 @@ class FireFightersListView(ListView):
         queryset = super().get_queryset()
         query = self.request.GET.get('q')
         if query:
-            queryset = queryset.filter(Q(name__icontains=query) | Q(rank__icontains=query) |Q(experience_level__icontains=query) |Q(station__icontains=query))
+            queryset = queryset.filter(Q(name__icontains=query) | Q(rank__icontains=query) |Q(experience_level__icontains=query) |Q(station__name__icontains=query))
         return queryset.order_by('id')  
 
 class FireFightersCreateView(CreateView):
@@ -361,7 +360,7 @@ class FireTruckListView(ListView):
         queryset = super().get_queryset()
         query = self.request.GET.get('q')
         if query:
-            queryset = queryset.filter(Q(truck_number__icontains=query) | Q(model__icontains=query) |Q(capacity__icontains=query) |Q(station__icontains=query))
+            queryset = queryset.filter(Q(truck_number__icontains=query) | Q(model__icontains=query) |Q(capacity__icontains=query) |Q(station__name__icontains=query))
         return queryset.order_by('id')
 
 
